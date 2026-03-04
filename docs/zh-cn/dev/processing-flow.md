@@ -235,7 +235,7 @@ Pass 产出并验证 IR 属性以确保正确性：
 | 属性 | 描述 | 产出者 |
 |------|------|--------|
 | `SSAForm` | IR 为 SSA 形式（变量只赋值一次） | ConvertToSSA |
-| `TypeChecked` | 类型检查通过 | RunVerifier |
+| `TypeChecked` | 类型检查通过 | 由 ConvertToSSA、FlattenCallExpr 保持 |
 | `NoNestedCalls` | 无嵌套调用表达式 | FlattenCallExpr |
 | `HasMemRefs` | MemRefs 已初始化 | InitMemRef |
 | `AllocatedMemoryAddr` | 内存地址已分配 | AllocateMemoryAddr |
@@ -420,9 +420,9 @@ void aicpu_orchestration_entry(PTO2Runtime* rt, uint64_t* args, int arg_count) {
 │  └──────────────────┘   └──────────────────┘   └──────────────────┘        │
 │           │                                                                 │
 │           ▼                                                                 │
-│  ┌──────────────────┐                                                       │
-│  │ AllocateMemoryAddr│                                                      │
-│  └──────────────────┘                                                       │
+│  ┌────────────────────┐                                                     │
+│  │ AllocateMemoryAddr │                                                     │
+│  └────────────────────┘                                                     │
 └─────────────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼

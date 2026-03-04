@@ -235,7 +235,7 @@ Passes produce and verify IR properties to ensure correctness:
 | Property | Description | Produced By |
 |----------|-------------|-------------|
 | `SSAForm` | IR in SSA form (variables assigned once) | ConvertToSSA |
-| `TypeChecked` | Type checking passed | RunVerifier |
+| `TypeChecked` | Type checking passed | Preserved by ConvertToSSA, FlattenCallExpr |
 | `NoNestedCalls` | No nested call expressions | FlattenCallExpr |
 | `HasMemRefs` | MemRefs initialized | InitMemRef |
 | `AllocatedMemoryAddr` | Memory addresses allocated | AllocateMemoryAddr |

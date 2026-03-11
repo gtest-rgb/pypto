@@ -31,13 +31,16 @@ Build and test the PyPTO project to verify code changes haven't broken anything.
 # 1. Activate environment (if testing.env exists)
 [ -f .claude/skills/testing/testing.env ] && source .claude/skills/testing/testing.env
 
-# 2. Build project
-cmake --build build
+# 2. Configure CMake if build is not configured (worktree, fresh clone)
+[ ! -f build/CMakeCache.txt ] && cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo
 
-# 3. Set PYTHONPATH
+# 3. Build project (parallel)
+cmake --build build --parallel
+
+# 4. Set PYTHONPATH
 export PYTHONPATH=$(pwd)/python:$PYTHONPATH
 
-# 4. Run tests
+# 5. Run tests
 python -m pytest tests/ut/ -v
 ```
 
@@ -80,8 +83,9 @@ tests/ut/
 | Issue | Solution |
 | ----- | -------- |
 | `ImportError: No module named 'pypto_core'` | `export PYTHONPATH=$(pwd)/python:$PYTHONPATH` |
-| Tests fail after code changes | `cmake --build build` then re-run |
+| Tests fail after code changes | `cmake --build build --parallel` then re-run |
 | Tests in wrong location | Move to `tests/ut/` |
+| Build not configured (worktree/fresh clone) | `cmake -B build -DCMAKE_BUILD_TYPE=RelWithDebInfo` |
 
 ## Output Format
 
